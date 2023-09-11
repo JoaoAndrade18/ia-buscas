@@ -36,7 +36,6 @@ public class Main {
 		
 		// Modelo de busca a ser utilizado para resolver o problema
 
-		// Inicialize a variável busca fora dos blocos if/else if
         BuscaCega busca = null;
 
         if (numeroAleatorio3 == 1) {
