@@ -1,16 +1,27 @@
 import espacoDeEstados.*;
-import estrategiasDeBusca.heuristica.*;
+import estrategiasDeBusca.cega.*;
+// import estrategiasDeBusca.heuristica.*;
+import java.util.Random;
+import java.util.Scanner;
 
 public class Main {
 
 	@SuppressWarnings("rawtypes")
 	public static void main(String[] args) {
 		
-		//char[] cfgIni = {' ','2','3','1','4','6','7','5','8'};
-		//char[] cfgIni = {'2','4','3','7','1','6','5',' ','8'};
-		char[] cfgIni = {'2','3',' ','7','4','1','5','8','6'};
-		//char[] cfgIni = {'7','2','3','4',' ','1','5','8','6'}; // OutOfMemory
-		char[] cfgEnd = {'','1','2','3','4','5','6','7','8'};
+		// Variaveis de configuracao do puzzle	
+		Scanner input = new Scanner(System.in);
+		char[] cfgIni;
+		char[] cfgEnd;
+
+		// Gerador de numeros aleatorios
+		Random random = new Random();		
+		
+		int numeroAleatorio3 = random.nextInt(3) +1;
+
+		cfgIni = new char[]{'2','3',' ','7','4','1','5','8','6'}; 
+		cfgEnd = new char[]{'1','2','3','4','5','6','7','8', ' '};
+
 
 		Puzzle8 puzzleInicial = new Puzzle8();
 		puzzleInicial.setEstado(cfgIni);
@@ -18,16 +29,36 @@ public class Main {
 		puzzleInicial.setAvaliacao( puzzleInicial.heuristica(Puzzle8.TABULEIRO_ORGANIZADO) );
 			
 		Puzzle8 puzzleFinal = new Puzzle8();
-		puzzleFinal.setEstado( Puzzle8.TABULEIRO_ORGANIZADO );
+		puzzleFinal.setEstado( cfgEnd );
 		puzzleFinal.setCusto(0);
 		puzzleFinal.setAvaliacao(0);
-						
-		BuscaInformada busca = new AStar();
+			
+		
+		// Modelo de busca a ser utilizado para resolver o problema
+
+		// Inicialize a variável busca fora dos blocos if/else if
+        BuscaCega busca = null;
+
+        if (numeroAleatorio3 == 1) {
+			System.out.println("Busca em Largura selecionada");
+            busca = new BuscaEmLargura();
+        } else if (numeroAleatorio3 == 2) {
+			System.out.println("Busca em Profundidade selecionada"); // Out of memory
+            busca = new BuscaEmProfundidade();
+        } else {
+			System.out.println("Busca em Profundidade Limitada selecionada, informe o limite:"); // acima de 13 para funcionar
+			int limite = input.nextInt();
+			System.out.println("Limite informado: " + limite);
+            busca = new BuscaEmProfundidadeLimitada(null, null, limite);
+			input.close();
+        } 
+		
+		
 		busca.setInicio(puzzleInicial);
 		busca.setObjetivo(puzzleFinal);
 		busca.buscar();
 		for(Estado e : busca.getCaminhoSolucao()) {
-			System.out.println(e);
+			System.out.println("\n" + e);
 		}
 
 		System.exit(0);
