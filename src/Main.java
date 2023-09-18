@@ -19,7 +19,7 @@ public class Main {
 		
 		// int numeroAleatorio3 = random.nextInt(3) +1;
 
-		cfgIni = new char[]{'1','2','3','4','5','6','7',' ','8'}; 
+		cfgIni = new char[]{'1','2','3','4',' ','5','6','7','8'}; 
 		cfgEnd = new char[]{'1','2','3','4','5','6','7','8',' '};
 
 
@@ -53,7 +53,7 @@ public class Main {
         // } 
 
 		// BuscaCega busca = new BuscaEmLargura();
-		BuscaCega busca = new BuscaEmProfundidade();
+		BuscaCega busca = new BuscaEmProfundidade(); // Não presta !!!!!!!!!!!!!!
 		// BuscaCega busca = new BuscaEmProfundidadeLimitada(null, null, 14);
 
 		// BuscaInformada busca = new AStar();
